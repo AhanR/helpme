@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helpme the socially active media</title>
+</head>
+<body>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        nav {
+            background-color: white;
+            top: 0;
+            left: 0;
+            margin: 0;
+            width: calc(100% - 4ch);
+            box-shadow: 0 0 7px 0px rgb(0 0 0 / 25%);
+            display: flex;
+            justify-content: space-between;
+            padding: 0 2ch;
+            margin: 0 0 2ch 0;
+        }
+
+        nav > div {
+            display: flex;
+            flex-direction: row;
+            width: 10ch;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .posts {
+            width: 50%;
+            margin: auto;
+        }
+
+        .post {
+            width: 100%;
+            margin: 4ch 0;
+            padding: 0 1ch;
+            border: 1px solid rgba(0, 0, 0, 0.254);
+        }
+
+        .postActions {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: flex-end;
+        }
+
+        .post button {
+            padding: 1ch;
+            margin: 1.5ch 0 1.5ch 1ch;
+        }
+    </style>
+    <nav>
+        <h2>Helpme</h2>
+        <div>
+            <a href="/">home</a>
+            <a href="/post">post</a>
+        </div>
+    </nav>
+    <div class="posts">
+        <div class="post">
+            <h3 style="margin: 1ch 0;">{{ name }}</h3>
+            <div class="postContent">
+                This is some post content
+            </div>
+            <div class="postActions">
+                <button>helpme</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        String.prototype.decodeHTML = function() {
+            var map = {"gt":">" /* , … */};
+            return this.replace(/&(#(?:x[0-9a-f]+|\d+)|[a-z]+);?/gi, function($0, $1) {
+                if ($1[0] === "#") {
+                    return String.fromCharCode($1[1].toLowerCase() === "x" ? parseInt($1.substr(2), 16)  : parseInt($1.substr(1), 10));
+                } else {
+                    return map.hasOwnProperty($1) ? map[$1] : $0;
+                }
+            });
+        };
+
+        String.prototype.doubleQuotesOnly = function() {
+            return this.replace(/'/g, "\"");
+        }
+    </script>
+    <script>
+        let params = `{{ posts }}`;
+        params = JSON.parse(params.decodeHTML().doubleQuotesOnly());
+        console.log(params);
+    </script>
+</body>
+</html>
