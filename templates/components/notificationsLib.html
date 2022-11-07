@@ -1,0 +1,35 @@
+<style>
+    .notification {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        transform: translate(200%);
+        margin: 1ch;
+        padding: 2ch;
+        background: white;
+        border-radius: 1ch;
+        border: 1px solid rgba(0, 0, 0, 0.249);
+    }
+
+    .die {
+        animation: 10s notification;
+    }
+
+    @keyframes notification {
+        0%   {transform: translate(120%); background: white;}
+        10%  {transform: translate(0%); background: white;}
+        15%  {background: rgb(164, 173, 159);}
+        20%  {background: white;}
+        90%  {transform: translate(0%)}
+        100% {transform: translate(120%); background: white;}
+    }
+</style>
+<div class="notification"></div>
+<script>
+    function notify(msg) {
+        let notificationElement = document.querySelector(".notification");
+        notificationElement.classList.remove("die")
+        notificationElement.innerText = msg;
+        notificationElement.classList.add("die")
+    }
+</script>

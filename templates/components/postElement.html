@@ -1,0 +1,60 @@
+<style>
+    .posts {
+        width: 50%;
+        margin: auto;
+    }
+
+    .post {
+        width: 100%;
+        margin: 4ch 0;
+        padding: 1ch 2ch;
+        border-radius: 1ch;
+        border: 1px solid rgba(0, 0, 0, 0.254);
+        box-sizing: border-box;
+    }
+
+    .postActions {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+
+    .post button {
+        border-radius: 1ch;
+        border: 1px solid rgba(0, 0, 0, 0.252);
+        padding: 1ch;
+        margin: 1ch 0 1ch 1ch;
+        cursor: pointer;
+    }
+
+    .post button:hover {
+        background: rgb(226, 233, 223);
+    }
+</style>
+<div class="posts" id="posts">
+</div>
+<template>
+    <div class="post">
+        <h3 style="margin: 1ch 0;" class="postAuthor">Ahan Ray</h3>
+        <div class="postContent">
+            This is some post content
+        </div>
+        <div class="postActions">
+            <button>helpme</button>
+        </div>
+    </div>
+</template>
+<script>
+    let postTemplate = document.querySelector("template");
+
+    function renderPosts(posts) {
+        posts.forEach(post => {
+            let newPostNode = postTemplate.content.cloneNode(true);
+            newPostNode.querySelector(".postAuthor").innerText = post.postAuthor;
+            newPostNode.querySelector(".postContent").innerText = post.postContent;
+            document.querySelector("#posts").append(newPostNode);
+        })
+    }
+</script>

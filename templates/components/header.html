@@ -1,0 +1,103 @@
+<style>
+    nav {
+        position: relative;
+        top: 0;
+        left: 0;
+        padding: 0 2ch;
+        margin: 0 0 2ch 0;
+        width: calc(100% - 4ch);
+        background-color: white;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.259);
+        display: flex;
+        justify-content: space-between;
+    }
+
+    nav > div {
+        display: flex;
+        flex-direction: row;
+        width: max-content;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    nav > div > a {
+        margin-left: 1ch;
+    }
+    
+    .dropDown {
+        position: fixed;
+        top: calc(4.2rem + 1px);
+        right: 0;
+        transform: translate(100%);
+        background-color: white;
+        border-radius: 0 0 0 1ch;
+        border: 1px solid rgba(0, 0, 0, 0.251);
+        padding: 0 2ch 2ch 2ch;
+        transition: 0.3s ease-in-out;
+        display: grid;
+        gap : 1ch;
+        z-index: 10;
+        justify-items: end;
+        border-top: none;
+        border-right: none;
+    }
+
+    .dropDownVisible {
+        transform: translateX(0);
+    }
+
+    .close {
+        width: 3ch;
+        height: 3ch;
+        border-radius: 1.5ch;
+        border: 1px solid rgba(0, 0, 0, 0.251);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+</style>
+<nav>
+    <h2>Helpme</h2>
+    <div>
+        <a href="">home</a>
+        <a href="/post">post</a>
+        <a href="/login?logout"
+            id="profileCircle"
+            onclick = "dropDown(event)"
+            style="text-decoration: none; color: black; display: flex; flex-direction: row; align-items: center; margin-left: 2ch;"
+        >
+            <div class="userProfile"
+                style="width: 2.5ch; height : 2.5ch; border-radius : 2ch; background-color: rgb(20, 160, 85); margin-right: 0.5ch;"
+            ></div>
+            <span>
+                {{ username }}
+            </span>
+        </a>
+    </div>
+    <div class="dropDown">
+        <div class="close" onclick="closeDropDown(event)">⨯</div>
+        <a href="" onclick="openProfile(event)" id = "profileLink">Profile</a>
+        <a href="login?logout">Log out</a>
+        <a href="login?delete">Delete account</a>
+    </div>
+</nav>
+<script>
+    let profileId = decodeURIComponent(document.cookie).split(";").filter(e => e.split("=")[0].trim() == "id");
+    
+    if(profileId.length != 1 || document.querySelector("span").innerText == "") {
+        document.querySelector("#profileCircle").parentElement.removeChild(document.querySelector("#profileCircle"));
+    }
+    else if(profileId.length == 1) {
+        document.querySelector("#profileLink").setAttribute("href", "profile/"+profileId[0].split("=")[1].trim());
+    }
+
+    function dropDown(e) {
+        e.preventDefault();
+        document.querySelector(".dropDown").classList.add("dropDownVisible");
+    }
+
+    function closeDropDown(e) {
+        document.querySelector(".dropDown").classList.remove("dropDownVisible");
+    }
+</script>

@@ -4,26 +4,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Helpme : the socially active media</title>
+    <title>{{ profileName }} | Helpme</title>
 </head>
 <body>
     {% include "components/setup.html" %}
+    <style>
+        .profileName {
+            width: 50%;
+            margin: auto;
+            margin-top: 4ch;
+        }
+    </style>
+    <base href="http://localhost:8000">
     {% include "components/header.html" %}
+    <h1 class="profileName">{{ profileName }}'s posts:</h1>
     {% include "components/stringfunction.html" %}
     {% include "components/postElement.html" %}
-    {% include "components/notificationsLib.html" %}
     <script>
-        let params = `{{ posts }}`;
-        let posts = JSON.parse(params.decodeHTML().doubleQuotesOnly()).posts;
-
+        let profileContent = `{{ profileContent }}`.decodeHTML().doubleQuotesOnly();
+        let posts = JSON.parse(profileContent).posts;
         renderPosts(posts);
-
-        if(window.location.search == "?newuser") {
-            notify("New user has been created!");
-        }
-        else if(window.location.search == "?posted") {
-            notify("post created!")
-        }
     </script>
 </body>
 </html>
