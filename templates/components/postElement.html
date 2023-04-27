@@ -42,7 +42,7 @@
             This is some post content
         </div>
         <div class="postActions">
-            <button>helpme</button>
+            <button class="helpme-button" >helpme</button>
         </div>
     </div>
 </template>
@@ -54,6 +54,10 @@
             let newPostNode = postTemplate.content.cloneNode(true);
             newPostNode.querySelector(".postAuthor").innerText = post.postAuthor;
             newPostNode.querySelector(".postContent").innerText = post.postContent;
+            newPostNode.querySelector(".helpme-button").onclick = () => {
+                console.log('/chat/'+post.postId);
+                window.location.pathname='/chat/'+post.postId;
+            };
             document.querySelector("#posts").append(newPostNode);
         })
     }

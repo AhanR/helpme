@@ -23,5 +23,7 @@ urlpatterns = [
     path('post', views.makepost),
     path('login', views.login),
     path('signup', views.signup),
-    path('profile/<userId>/', views.profileShow)
+    path('profile/<userId>/', views.profileShow),
+    path('chat/<postId>/', views.messaging),
+    path('addmessage/<postId>/<message>',views.addMessage)
 ]

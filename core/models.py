@@ -12,9 +12,10 @@ class Posts(models.Model):
 #    postId = models.BigAutoField()
 
 
-# class Message(models.Model) :
-#     sender = models.ForeignKey(User, on_delete=models.SET_NULL)
-#     message = models.CharField(max_length=200)
+class Message(models.Model) :
+    postId = models.ForeignKey(Posts, on_delete=models.CASCADE)
+    userId = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.CharField(max_length=200)
 
 # class Chats(models.Model) :
 #     chatId = models.ForeignKey(Posts, on_delete=models.CASCADE)

@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from .models import User, Posts
+from .models import User, Posts, Message
+import json
 # , Chats, Message
 
 def index (req) :
@@ -11,7 +12,7 @@ def index (req) :
 		return render(req,'login.html')
 	
 	posts = []
-	postsQueried =  list(Posts.objects.all())
+	postsQueried =  list(Posts.objects.all())[::-1]
 	for post in postsQueried :
 		posts.append({"postContent" : post.postContent, "postAuthor" : post.postAuthor.username, "postId" : post.id})
 
@@ -97,4 +98,34 @@ def profileShow(req, userId) :
 	except:
 		userDetails = {"username" : "user not available"}
 
-	return render(req, 'profile.html',{"profileName" : userDetails.username, "profileContent" : {"posts" : posts}})
+	return render(req, 'profile.html',{"username" : userDetails.username ,"profileName" : userDetails.username, "profileContent" : {"posts" : posts}})
+
+def messaging(req, postId):
+	userId = req.COOKIES.get("id")
+	userDetails = {}
+	userMessages = []
+	try:
+		userDetails = User.objects.get(id = userId)
+	except:
+		return render(req,'login.html')
+	
+	try:
+		userMessages = Message.objects.filter(postId = Posts.objects.get(id = postId))
+	except:
+		userMessages = []
+	msgs = [{"message":x.message, "userId":x.userId.username} for x in userMessages]
+	return render(req, "chat.html", { "username": userDetails.username, "messages": msgs, "profileName" : userDetails.username, "postId" : postId, "post": Posts.objects.get(id = postId) })
+
+def addMessage(req, postId, message):
+
+	try:
+		newMessagage = Message(
+			postId = Posts.objects.get(id = postId),
+			userId = User.objects.get(id = req.COOKIES.get("id")),
+			message = message
+		)
+		newMessagage.save()
+	except:
+		return HttpResponse("False")
+
+	return HttpResponse(json.dumps({"userId":newMessagage.userId.username,"message":newMessagage.message}))

@@ -14,7 +14,9 @@
     {% include "components/notificationsLib.html" %}
     <script>
         let params = `{{ posts }}`;
-        let posts = JSON.parse(params.decodeHTML().doubleQuotesOnly()).posts;
+        console.log(params);
+        let content = params.decodeHTML().doubleQuotesOnly().replaceAll("\r","").replaceAll("\n"," ");
+        let posts = JSON.parse(content).posts;
 
         renderPosts(posts);
 
